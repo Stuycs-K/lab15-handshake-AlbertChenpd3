@@ -4,18 +4,27 @@
 /*=========================
   server_setup
 
+  returns the file descriptor for the upstream pipe.
   creates the WKP and opens it, waiting for a  connection.
   removes the WKP once a connection has been made
 
-  returns the file descriptor for the upstream pipe.
   =========================*/
 int server_setup() {
   int from_client = 0;
+  //fdread should be 0
+  int fdread;
+  fdread= mkfifo("WKP",0444);
+//  read(fdread,,256)
+  open("WKP",066);
+  close(fdread);
+
+  from_client = WKP[0];
+
   return from_client;
 }
 
 /*=========================
-  server_handshake 
+  server_handshake
   args: int * to_client
 
   Performs the server side pipe 3 way handshake.
@@ -25,7 +34,15 @@ int server_setup() {
   =========================*/
 int server_handshake(int *to_client) {
   int from_client;
+  int pipeArray[2];
+  pipe(pipeArray);
+  *to_client = pipeArray[0];
+
+
+  from_client = WKP[1];
+
   return from_client;
+
 }
 
 
@@ -40,6 +57,9 @@ int server_handshake(int *to_client) {
   =========================*/
 int client_handshake(int *to_server) {
   int from_server;
+  *to_server = WKP[1];
+
+
   return from_server;
 }
 
@@ -56,5 +76,3 @@ int server_connect(int from_client) {
   int to_client  = 0;
   return to_client;
 }
-
-
