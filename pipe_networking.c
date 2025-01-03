@@ -23,7 +23,7 @@ int server_setup() {
     close(fdread);
   }
   from_client = WKP[0];
-
+  read[WKP[READ],256,pipeArray[WRITE]];
 
 
   return from_client;
@@ -42,6 +42,9 @@ int server_handshake(int *to_client) {
   int from_client;
   int pipeArray[2];
   pipe(pipeArray);
+  int random = random % 100;
+
+
   *to_client = pipeArray[0];//you are afraid of life, Little Man, deadly afraid. You will mur
 
   from_client = WKP[1];
@@ -68,9 +71,10 @@ int client_handshake(int *to_server) {
   open("WKP",0666);
 
   //Replace x with pid
-  write(WKP[READ],"x",256);
-
+  write(WKP[WRITE],"x",256);
   *to_server = WKP[1];
+
+
 
   from_server = WKP[WRITE];
 
@@ -89,5 +93,8 @@ int client_handshake(int *to_server) {
   =========================*/
 int server_connect(int from_client) {
   int to_client  = 0;
+
+
+
   return to_client;
 }
